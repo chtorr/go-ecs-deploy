@@ -1,0 +1,51 @@
+{
+    "service": {
+        "cluster": "{{ .Cluster }}",
+        "serviceName": "awesome-service",
+        "loadBalancers": [
+            {
+                "targetGroupArn": "target group arn",
+                "containerName": "awesome-service",
+                "containerPort": 8080
+            }
+        ],
+        "desiredCount": 2,
+        "role": "{{ .SchedulerIAMRoleArn }}",
+        "deploymentConfiguration": {
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100
+        }
+    },
+    "task": {
+        "family": "{{ .Cluster }}-awesome-service",
+        "taskRoleArn": "{{ .TaskIAMRoleArn }}",
+        "containerDefinitions": [
+        {
+            "name": "awesome-service",
+            "image": "some-repo/awesome-service:tag",
+            "essential": true,
+            "memoryReservation": 250,
+            "portMappings": [
+            {
+                "containerPort": 8080,
+                "hostPort": 0
+            }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "{{ .AWSLogsGroupName }}",
+                    "awslogs-region": "{{ .AWSLogsRegion }}",
+                    "awslogs-stream-prefix": "awesome-service"
+                }
+            },
+            "environment": [
+            {
+                "name": "SOME_VAR",
+                "value": "SOME_KEY"
+            }
+            ]
+        }
+        ]
+    }
+}

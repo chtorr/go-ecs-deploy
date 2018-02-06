@@ -1,0 +1,7 @@
+{
+    "Cluster": "some-clsuter" ,
+    "SchedulerIAMRoleArn": "arn",
+    "TaskIAMRoleArn": "arn",
+    "AWSLogsGroupName": "name",
+    "AWSLogsRegion": "region"
+}
