@@ -3,7 +3,7 @@ WORKDIR /go/src/github.com/chtorr/go-ecs-deploy/
 COPY . ./
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-ecs-migrate src/main.go
 
-FROM debian:stretch
-WORKDIR /root/
+FROM drydock/u16:latest
+WORKDIR /
 COPY --from=builder /go/src/github.com/chtorr/go-ecs-deploy/go-ecs-migrate .
 CMD ["./go-ecs-migrate"]  
